@@ -656,5 +656,20 @@ const products = [
       "apparel",
       "mens"
     ]
+  },{
+    id: "nati-unique-id963221681",
+    image: "images/products/variations/black-hair-color.jpg",
+    name: "Nati black hair dyer",
+    rating: {
+      stars: 5.0,
+      count: 3500
+    },
+    priceCents: 3000,
+    keywords: [
+      "dyer",
+      "black",
+      "mans and womens"
+
+    ]
   }
 ];

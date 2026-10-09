@@ -1,4 +1,4 @@
-import { cart, addToCart } from "../data/cart.js";
+import { cart, addToCart, updateCartQuantity, saveTostorage } from "../data/cart.js";
 import { formatCurrency} from "./utils/money.js";
 import { products } from "../data/products.js";
 let productsHTML = ``
@@ -57,15 +57,12 @@ products.forEach((product) => {
 let intervalId;
 document.querySelector('.js-products-grid')
   .innerHTML = productsHTML;
-function updateCartQuantity(){
-let cartQuantity =  0;
-
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    })
-    document.querySelector('.js-cart-quantity').innerHTML
+function showCartQuantity(){
+  const cartQuantity = updateCartQuantity();
+  document.querySelector('.js-cart-quantity').innerHTML
     = cartQuantity;
 }
+ showCartQuantity();
 document.querySelectorAll('.js-add-to-cart')
 .forEach((button) => {
  button.addEventListener('click', ()=> {
@@ -79,9 +76,8 @@ document.querySelectorAll('.js-add-to-cart')
   }, 2000);
   
   addToCart(productId);
-  updateCartQuantity();
-
+  showCartQuantity();
+  saveTostorage();
  });
-
 });
 

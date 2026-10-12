@@ -19,7 +19,7 @@ export function addToCart(productId){
     cart.push({
     productId: productId,
     quantity: selectedCount,
-    deliveryOptionId: '3'
+    deliveryOptionId: '1'
     })
     saveTostorage();
   }

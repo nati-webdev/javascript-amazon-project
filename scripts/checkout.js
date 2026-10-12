@@ -1,4 +1,4 @@
-import { cart , removeFromCart, updateCartQuantity , saveTostorage } from "../data/cart.js";
+import { cart , removeFromCart, updateCartQuantity , saveTostorage, updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -77,7 +77,9 @@ function deliveryOptionsHTML(product,cartItem){
     const ischecked = cartItem.deliveryOptionId === deliveryOption.id;
 
     HTML += `
-      <div class="delivery-option">
+      <div class="delivery-option js-delivery-option"
+        data-product-id="${product.id}"
+        data-delivery-option-id="${deliveryOption.id}">
           <input type="radio"
             ${!ischecked ? 'checked' : ''}
             class="delivery-option-input"
@@ -156,6 +158,13 @@ updateCheckout();
     });
     });
     });
+  });
+  document.querySelectorAll('.js-delivery-option').
+  forEach((event) => {
+    event.addEventListener('click', () => {
+      const {deliveryOptionId, productId} = event.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+    })
   });
 
   

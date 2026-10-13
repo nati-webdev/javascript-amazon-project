@@ -1,12 +1,16 @@
-import { delivaryOptions } from "./delivaryOption.js";
-export let cart = JSON.parse(localStorage.getItem('cart')) || [];
+export let cart;
+
+loadFromStorage();
+export function loadFromStorage(){
+   cart = JSON.parse(localStorage.getItem('cart')) || [];
+}
 export function saveTostorage(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 export function addToCart(productId){
   const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-  const selectedCount = Number(quantitySelector.value);
+  const selectedCount = quantitySelector ? Number(quantitySelector.value) : 1;
   let matcthingItem;
   cart.forEach((cartItem) => {
     if(productId === cartItem.productId){
@@ -21,9 +25,8 @@ export function addToCart(productId){
     quantity: selectedCount,
     delivaryOptionId: '1'
     })
-    saveTostorage();
   }
-
+  saveTostorage();
 }
 
 export function updateCartQuantity(){

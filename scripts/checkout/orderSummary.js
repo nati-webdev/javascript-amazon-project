@@ -1,20 +1,16 @@
-import { cart , removeFromCart, updateCartQuantity , saveTostorage, updateDeliveryOption } from "../../data/cart.js";
+import { cart , removeFromCart, saveTostorage, updateDelivaryOption } from "../../data/cart.js";
 import { products, getProductItem } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions, getDeliveryObject } from "../../data/deliveryOption.js";
+import { calculateDelivaryDate, delivaryOptions, getDelivaryObject } from "../../data/delivaryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { updateCheckout } from "./checkoutHeader.js";
 export function renderOrderSummary(){
   let checkouthtml = '';
   cart.forEach((cartItem) => {
     let product = getProductItem(cartItem);
     
-    const deliveryOption = getDeliveryObject(cartItem);
-      const today = dayjs();
-      const deliveryDate = today.add(
-          deliveryOption.deliveryDays, 'days'
-      );
-      const dateString = deliveryDate.format('dddd, MMMM D');
+    const delivaryOption = getDelivaryObject(cartItem);
+    const dateString = calculateDelivaryDate(delivaryOption);
       
     checkouthtml += 
           `<div class="cart-item-container js-cart-item-container-${product.id}">
@@ -49,29 +45,25 @@ export function renderOrderSummary(){
               <div class="delivery-options-title">
                 Choose a delivery option:
               </div>
-              ${deliveryOptionsHTML(product, cartItem)}
+              ${delivaryOptionsHTML(product, cartItem)}
             </div>
           </div>
         </div>
     `;
   });
-  function deliveryOptionsHTML(product,cartItem){
+  function delivaryOptionsHTML(product,cartItem){
     let HTML = '';
-    deliveryOptions.forEach((deliveryOption) => {
-      const today = dayjs();
-      const deliveryDate = today.add(
-        deliveryOption.deliveryDays, 'days'
-      );
-      const dateString = deliveryDate.format('dddd, MMMM D');
-      const priceString = deliveryOption.priceCents === 0 
+    delivaryOptions.forEach((delivaryOption) => {
+      const dateString = calculateDelivaryDate(delivaryOption);
+      const priceString = delivaryOption.priceCents === 0 
       ? 'FREE '  
-      : `$${formatCurrency(deliveryOption.priceCents)} `;
-      const ischecked = cartItem.deliveryOptionId === deliveryOption.id;
+      : `$${formatCurrency(delivaryOption.priceCents)} `;
+      const ischecked = cartItem.delivaryOptionId === delivaryOption.id;
 
       HTML += `
         <div class="delivery-option js-delivery-option"
           data-product-id="${product.id}"
-          data-delivery-option-id="${deliveryOption.id}">
+          data-delivery-option-id="${delivaryOption.id}">
             <input type="radio"
               ${ischecked ? 'checked' : ''}
               class="delivery-option-input"
@@ -88,11 +80,6 @@ export function renderOrderSummary(){
     });
     return HTML;
   }
-  function updateCheckout(){
-    const cartQuantity = updateCartQuantity();
-    document.querySelector('.js-total-items').innerHTML
-        = `${cartQuantity} items` || `0 items`;
-  }
   updateCheckout();
     
     document.querySelector('.js-order-summery').innerHTML = checkouthtml;
@@ -103,9 +90,9 @@ export function renderOrderSummary(){
       link.addEventListener('click', () => {
         const { productId } = link.dataset;
         removeFromCart(productId);
-        document.querySelector(`.js-cart-item-container-${productId}`).remove();
         saveTostorage();
         updateCheckout();
+        renderOrderSummary();
         renderPaymentSummary();
       })
     });
@@ -140,8 +127,9 @@ export function renderOrderSummary(){
         });
         }else if (updateValue === 0){
           removeFromCart(productId);
-          document.querySelector(`.js-cart-item-container-${productId}`).remove();
+          cartItemContainer.remove();
           updateCheckout();
+          renderPaymentSummary();
         }else{
           alert('Not a valid input');
         }
@@ -157,7 +145,7 @@ export function renderOrderSummary(){
     forEach((element) => {
       element.addEventListener('click', () => {
         const {deliveryOptionId, productId} = element.dataset;
-      updateDeliveryOption(productId, deliveryOptionId);
+      updateDelivaryOption(productId, deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();
 

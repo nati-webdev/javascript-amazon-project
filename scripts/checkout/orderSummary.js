@@ -13,7 +13,7 @@ export function renderOrderSummary(){
     const dateString = calculateDelivaryDate(delivaryOption);
       
     checkouthtml += 
-          `<div class="cart-item-container js-cart-item-container-${product.id}">
+          `<div class="cart-item-container js-cart-item-container js-cart-item-container-${product.id}">
           <div class="delivery-date">
             Delivery date: ${dateString}
           </div>
@@ -27,7 +27,7 @@ export function renderOrderSummary(){
               <div class="product-price">
                 $${formatCurrency(product.priceCents)}
               </div>
-              <div class="product-quantity">
+              <div class="product-quantity js-product-quantity-${product.id}">
                 <span>
                   Quantity: <span class="quantity-label js-quantity-span">${cartItem.quantity}</span>
                 </span>
@@ -35,7 +35,7 @@ export function renderOrderSummary(){
                   Update 
                 </span>
                 <span class="js-save-button"></span>
-                <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${product.id}">
+                <span class="delete-quantity-link link-primary js-delete-link js-delete-link-${product.id}" data-product-id="${product.id}">
                   Delete
                 </span>
               </div>
@@ -82,8 +82,8 @@ export function renderOrderSummary(){
   }
   updateCheckout();
     
-    document.querySelector('.js-order-summery').innerHTML = checkouthtml;
-    const updateHTML = document.querySelectorAll('.js-save-button');
+  document.querySelector('.js-order-summery').innerHTML = checkouthtml;
+  const updateHTML = document.querySelectorAll('.js-save-button');
 
     document.querySelectorAll('.js-delete-link')
     .forEach((link) => {

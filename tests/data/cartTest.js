@@ -43,9 +43,10 @@ describe('Test suite: add to cart', () => {
     })
   })
    it('remove a productId that is in the cart', () => {
-    addToCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
+    addToCart('15b6fc6f-327a-4ec4-896f-486349e85a3d');
+    expect(cart.length).toEqual(2);
     removeFromCart('e43638ce-6aa0-4b85-b27f-e1d07eb678c6');
-    expect(cart.length).toEqual(0);
+    expect(cart.length).toEqual(1);
     expect(localStorage.setItem).toHaveBeenCalledTimes(2);
    })
    it('remove a productId that is not in the cart', () => {

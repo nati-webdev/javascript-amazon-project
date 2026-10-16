@@ -21,10 +21,10 @@ export function renderOrderSummary(){
             <img class="product-image"
           src="${product.image}">
             <div class="cart-item-details">
-              <div class="product-name">
+              <div class="product-name js-name-class">
                 ${product.name}
               </div>
-              <div class="product-price">
+              <div class="product-price js-price-class">
                 $${formatCurrency(product.priceCents)}
               </div>
               <div class="product-quantity js-product-quantity-${product.id}">
@@ -61,10 +61,10 @@ export function renderOrderSummary(){
       const ischecked = cartItem.delivaryOptionId === delivaryOption.id;
 
       HTML += `
-        <div class="delivery-option js-delivery-option"
+        <div class="delivery-option js-delivery-option js-testing-delivary-option-${product.id}-${delivaryOption.id}"
           data-product-id="${product.id}"
           data-delivery-option-id="${delivaryOption.id}">
-            <input type="radio"
+            <input class="delivary-option-input input-${product.id}-${delivaryOption.id}" type="radio"
               ${ischecked ? 'checked' : ''}
               class="delivery-option-input"
               name="delivery-option-${product.id}">

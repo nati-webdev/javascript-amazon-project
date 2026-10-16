@@ -1,6 +1,7 @@
 export let cart;
 
 loadFromStorage();
+
 export function loadFromStorage(){
    cart = JSON.parse(localStorage.getItem('cart')) || [];
 }
@@ -52,6 +53,12 @@ export function updateDelivaryOption(productId, delivaryOptionId){
       matcthingItem = cartItem;
     }
   });
+  if(!matcthingItem){
+      return;
+   }
+  if(delivaryOptionId !== '1' && delivaryOptionId !== '2' && delivaryOptionId !== '3'){
+    return;
+   }
   matcthingItem.delivaryOptionId = delivaryOptionId;
   saveTostorage();
 }

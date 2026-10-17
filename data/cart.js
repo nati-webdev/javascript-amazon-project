@@ -1,19 +1,27 @@
-export let cart;
+class Cart {
 
-loadFromStorage();
+  cartItem;
 
-export function loadFromStorage(){
-   cart = JSON.parse(localStorage.getItem('cart')) || [];
-}
-export function saveTostorage(){
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
+  #localStorageKey;
 
-export function addToCart(productId){
+  constructor(localStorageKey) {
+   this.#localStorageKey = localStorageKey;
+   this.#loadFromStorage();
+  }
+
+  #loadFromStorage(){
+   this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
+  }
+
+  saveTostorage(){
+  localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItem));
+  }
+
+  addToCart(productId){
   const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
   const selectedCount = quantitySelector ? Number(quantitySelector.value) : 1;
   let matcthingItem;
-  cart.forEach((cartItem) => {
+  this.cartItem.forEach((cartItem) => {
     if(productId === cartItem.productId){
       matcthingItem = cartItem;
     }
@@ -21,34 +29,34 @@ export function addToCart(productId){
   if(matcthingItem){
       matcthingItem.quantity += selectedCount;
   }else{
-    cart.push({
+    this.cartItem.push({
     productId: productId,
     quantity: selectedCount,
     delivaryOptionId: '1'
     })
   }
-  saveTostorage();
-}
+  this.saveTostorage();
+  }
 
-export function updateCartQuantity(){
-let cartQuantity =  0;
-
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    })
+  updateCartQuantity(){
+  let cartQuantity =  0;
+  this.cartItem.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  })
     return cartQuantity;
-}
- export function removeFromCart(productId){
-  const newCart = cart.filter((cartItem) => {
+  }
+
+  removeFromCart(productId){
+  const newCart = this.cartItem.filter((cartItem) => {
     return cartItem.productId !== productId;
   });
-  cart = newCart;
-  saveTostorage();
-};
+  this.cartItem = newCart;
+  this.saveTostorage();
+  }
 
-export function updateDelivaryOption(productId, delivaryOptionId){
+  updateDelivaryOption(productId, delivaryOptionId){
   let matcthingItem;
-  cart.forEach((cartItem) => {
+  this.cartItem.forEach((cartItem) => {
     if(productId === cartItem.productId){
       matcthingItem = cartItem;
     }
@@ -60,5 +68,7 @@ export function updateDelivaryOption(productId, delivaryOptionId){
     return;
    }
   matcthingItem.delivaryOptionId = delivaryOptionId;
-  saveTostorage();
+  this.saveTostorage();
+  }
 }
+export const cart = new Cart('cart');

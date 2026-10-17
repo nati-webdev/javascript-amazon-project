@@ -1,12 +1,15 @@
-import { cart , removeFromCart, saveTostorage, updateDelivaryOption } from "../../data/cart.js";
+import { cart } from "../../data/cart.js";
 import { products, getProductItem } from "../../data/products.js";
-import { formatCurrency } from "../utils/money.js";
 import { calculateDelivaryDate, delivaryOptions, getDelivaryObject } from "../../data/delivaryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { updateCheckout } from "./checkoutHeader.js";
+import { formatCurrency } from "../utils/money.js";
 export function renderOrderSummary(){
+
   let checkouthtml = '';
-  cart.forEach((cartItem) => {
+
+  cart.cartItem.forEach((cartItem) => {
+
     let product = getProductItem(cartItem);
     
     const delivaryOption = getDelivaryObject(cartItem);
@@ -89,8 +92,8 @@ export function renderOrderSummary(){
     .forEach((link) => {
       link.addEventListener('click', () => {
         const { productId } = link.dataset;
-        removeFromCart(productId);
-        saveTostorage();
+        cart.removeFromCart(productId);
+        cart.saveTostorage();
         updateCheckout();
         renderOrderSummary();
         renderPaymentSummary();
@@ -104,7 +107,7 @@ export function renderOrderSummary(){
       const {productId} = link.dataset;
       const cartItemContainer = document.querySelector(`.js-cart-item-container-${productId}`);
       const saveArea = cartItemContainer.querySelector('.js-save-button');
-      const cuurentQuantity = cart.find((cartItem) => {
+      const cuurentQuantity = cart.cartItem.find((cartItem) => {
         return cartItem.productId === productId;
         });
       cartItemContainer.querySelector('.js-update-link').innerHTML = ``;
@@ -116,17 +119,17 @@ export function renderOrderSummary(){
       button.addEventListener('click', () => {
       const updateValue = Number(quantityInput.value);
         if(updateValue > 0 && updateValue < 100){
-        cart.forEach((cartItem) => {
+        cart.cartItem.forEach((cartItem) => {
           if(cartItem.productId === productId){
           cartItem.quantity = updateValue;
           }
-          saveTostorage();
+          cart.saveTostorage();
           updateCheckout();
           cartItemContainer.querySelector('.js-quantity-span').innerHTML = `${cuurentQuantity.quantity}`;
           renderPaymentSummary();
         });
         }else if (updateValue === 0){
-          removeFromCart(productId);
+          cart.removeFromCart(productId);
           cartItemContainer.remove();
           updateCheckout();
           renderPaymentSummary();
@@ -145,7 +148,7 @@ export function renderOrderSummary(){
     forEach((element) => {
       element.addEventListener('click', () => {
         const {deliveryOptionId, productId} = element.dataset;
-      updateDelivaryOption(productId, deliveryOptionId);
+      cart.updateDelivaryOption(productId, deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();
 

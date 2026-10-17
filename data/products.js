@@ -1,16 +1,11 @@
 import { formatCurrency } from "../scripts/utils/money.js";
-export function getProductItem(productId){
-      let product = products.find((product) => {
-        return product.id === productId.productId;
-    });
-    return product;
-    }
 class Product {
   id;
   image;
   name;
   rating;
   priceCents;
+  
   constructor(data) {
   this.id = data.id;
   this.image = data.image;
@@ -26,7 +21,9 @@ class Product {
   getPrice(){
     return formatCurrency(this.priceCents);
   }
+
 }
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -704,3 +701,10 @@ export const products = [
 ].map((productDetails) => {
   return new Product(productDetails);
 });
+
+export function getProductItem(productId){
+    let product = products.find((product) => {
+      return product.id === productId.productId;
+    });
+    return product;
+  }

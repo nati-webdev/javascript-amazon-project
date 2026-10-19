@@ -22,6 +22,23 @@ class Product {
     return formatCurrency(this.priceCents);
   }
 
+  extraInfoHTML(){
+    return '';
+  }
+
+}
+
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor(data){
+    super(data);
+    this.sizeChartLink = data.sizeChartLink;
+  }
+  
+  extraInfoHTML() {
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`
+  }
 }
 
 export const products = [
@@ -690,7 +707,7 @@ export const products = [
       stars: 5.0,
       count: 3500
     },
-    priceCents: 3000,
+    priceCents: 1000,
     keywords: [
       "dyer",
       "black",
@@ -699,6 +716,9 @@ export const products = [
     ]
   }
 ].map((productDetails) => {
+  if(productDetails.type === 'clothing'){
+  return new Clothing(productDetails);
+  }
   return new Product(productDetails);
 });
 

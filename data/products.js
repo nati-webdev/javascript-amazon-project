@@ -101,7 +101,7 @@ export function loadProduct(fun) {
     }
     return new Product(productDetails);
     });
-  console.log(products)
+  console.log('Loaded');
   fun();
   });
 

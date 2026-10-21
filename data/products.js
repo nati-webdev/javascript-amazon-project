@@ -40,6 +40,7 @@ class Clothing extends Product{
     return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`
   }
 }
+/*
 class Appliance extends Product {
   instructionLink;
   warrantyLink;
@@ -55,6 +56,7 @@ class Appliance extends Product {
   }
 
 }
+  */
 /*
 const date = new Date();
 console.log(date);
@@ -92,15 +94,14 @@ export function loadProduct(fun) {
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener('load', () => {
+    
     products = JSON.parse(xhr.response).map((productDetails) => {
   if(productDetails.type === 'clothing'){
-  return new Clothing(productDetails);
-  }else if(productDetails.type === 'appliance'){
-    return new Appliance(productDetails);
-  }
-  return new Product(productDetails);
-  });
-  console.log('load products')
+    return new Clothing(productDetails);
+    }
+    return new Product(productDetails);
+    });
+  console.log(products)
   fun();
   });
 

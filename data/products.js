@@ -96,13 +96,12 @@ export function loadProductsFetch() {
   ).then((response) => {
     return response.json();
   }).then((productData) => {
-    console.log(productData)
     products = productData.map((productDetails) => {
-    if(productDetails.type === 'clothing'){
-    return new Clothing(productDetails);
-    }
-    return new Product(productDetails);
-    });
+      if(productDetails.type === 'clothing'){
+      return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+      });
     
     console.log('Loaded');
 

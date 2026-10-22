@@ -1,7 +1,7 @@
-import { products, loadProduct } from '../../data/products.js';
+import { products, loadProductsFetch } from '../../data/products.js';
 describe('test suite: testing product', () => {
   beforeAll( (done) => {
-    loadProduct(() => {
+    loadProductsFetch().then(() => {
       done();
     });
   });
@@ -17,33 +17,35 @@ describe('test suite: testing product', () => {
   }));
   
 });
-/*
+
 describe('test suite: testing clothing product', () => {
   beforeAll((done) => {
-    loadProduct(() => {
+    loadProductsFetch().then(() => {
       done();
     });
   });
-  const product = products.find((product) => {
+  
+  it('side chart working test', () => {
+    const product = products.find((product) => {
     return product.id === '83d4ca15-0f35-48f5-b7a3-1ea210004f2e';
   })
-  it('side chart working test', () => {
     expect(product.extraInfoHTML()).toContain('Size chart');
   });
 
-});*/
+});
 /*
 describe('test suite: testing  Appliance', () => {
   beforeAll(() => {
-    loadProduct(() => {
+    loadProductsFetch().then(() => {
       done();
     })
   })
-  const product = products.find((product) => {
+  
+  
+  it('testing appliance', () => {
+    const product = products.find((product) => {
     return product.id === '54e0eccd-8f36-462b-b68a-8182611d9add';
   })
-  /*
-  it('testing appliance', () => {
     expect(product.extraInfoHTML()).toContain('Warranty');
   });
   

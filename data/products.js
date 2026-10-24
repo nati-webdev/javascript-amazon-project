@@ -105,6 +105,8 @@ export function loadProductsFetch() {
     
     console.log('Loaded');
 
+  }).catch((error) => {
+     console.log('inside fetch: unexpected error. please try again later.');
   });
   return promise;
 }
@@ -126,11 +128,17 @@ export function loadProduct(fun) {
 
   fun();
   });
+  xhr.addEventListener('error', (error) => {
+    console.log('unexpected error. please try again later');
+    console.log(error);
+  })
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
-  */
+loadProduct();
+*/
+
 /*
 export const products = [
   {

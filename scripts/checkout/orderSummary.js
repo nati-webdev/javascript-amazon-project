@@ -1,5 +1,5 @@
 import { cart } from "../../data/cart.js";
-import { products, getProductItem } from "../../data/products.js";
+import { getProductItem } from "../../data/products.js";
 import { calculateDelivaryDate, delivaryOptions, getDelivaryObject } from "../../data/delivaryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { updateCheckout } from "./checkoutHeader.js";

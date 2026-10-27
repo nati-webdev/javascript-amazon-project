@@ -72,7 +72,7 @@ class Cart {
   }
 }
 export const cart = new Cart('cart');
-
+/*
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest();
 
@@ -83,4 +83,15 @@ export function loadCart(fun) {
 
   xhr.open('GET', 'https://supersimplebackend.dev/cart');
   xhr.send();
+}
+  */
+export async function loadCartFetch() {
+   const promise = await fetch(
+    'https://supersimplebackend.dev/cart'
+   ).then((response) => {
+    return response.text();
+   }).then((response) => {
+    console.log(response)
+   });
+   return promise;
 }

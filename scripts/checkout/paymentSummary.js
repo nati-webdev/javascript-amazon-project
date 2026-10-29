@@ -72,11 +72,10 @@ export function renderPaymentSummary(){
       });
      const order = await response.json();
      addOrder(order);
-     console.log(order);
     } catch(error) {
        console.log('unexpected error. try again later');
     }
-
+    localStorage.removeItem('cart');
     window.location.href = 'orders.html';
     });
   

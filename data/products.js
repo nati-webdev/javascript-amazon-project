@@ -89,7 +89,7 @@ object3.method();
 */
 
 export let products = [];
-
+/*
 export function loadProductsFetch() {
   const promise = fetch(
     'https://supersimplebackend.dev/products'
@@ -103,12 +103,23 @@ export function loadProductsFetch() {
       return new Product(productDetails);
       });
     
-    console.log('Loaded');
+    console.log('Loaded product');
 
   }).catch((error) => {
      console.log('inside fetch: unexpected error. please try again later.');
   });
   return promise;
+}
+  */
+export async function loadProductsFetch() {
+  const promise = await fetch('https://supersimplebackend.dev/products')
+  const product = await promise.json();
+  products = product.map((productDetails) => {
+    if(productDetails.type === 'clothing'){
+      return new Clothing(productDetails);
+    }
+    return new Product(productDetails);
+  })
 }
 
 /*

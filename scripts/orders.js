@@ -13,6 +13,8 @@ async function loadOrderPage() {
 
 }
 loadOrderPage();
+const addTimeouts = {};
+
 function renderOrderPage() {
   const cartQuantity = cart.updateCartQuantity();
   document.querySelector('.js-order-cart-quantity').innerHTML = cartQuantity;
@@ -73,12 +75,13 @@ function orderDetail(Order) {
           </div>
           <button class="buy-again-button button-primary js-buy-again-button" data-product-id="${Product.id}">
             <img class="buy-again-icon" src="images/icons/buy-again.png">
-            <span class="buy-again-message ">Buy it again</span>
+            <span class="css-buy-message">Buy it again</span>
+            <span class="css-buy-success" style="display: none; ">&#10003 Added</span>
           </button>
         </div>
 
         <div class="product-actions">
-          <a href="tracking.html">
+          <a href="tracking.html?orderId=${Order.id}&productId=${Product.id}">
             <button class="track-package-button button-secondary">
               Track package
             </button>
@@ -88,13 +91,32 @@ function orderDetail(Order) {
     });
   return orderDetailHtml;
 }
-  
   document.querySelectorAll(`.js-buy-again-button`)
   .forEach((button) => {
      button.addEventListener('click', () => {
       const {productId} = button.dataset;
+      const previousTimeout= addTimeouts[productId];
 
+      
       addtoCart(productId);
+      const imageBuy = button.querySelector('.buy-again-icon');
+      const successButton = button.querySelector('.css-buy-success');
+      const buyagainButton = button.querySelector('.css-buy-message');
+      if(successButton && buyagainButton) {
+        successButton.style.display = 'inline';
+        buyagainButton.style.display ='none';
+        imageBuy.style.display = 'none';
+        if(previousTimeout !== undefined){
+          clearTimeout(previousTimeout);
+        }
+      const timeOutId = setTimeout(() => {
+          successButton.style.display = 'none';
+          buyagainButton.style.display = 'inline';
+          imageBuy.style.display = 'inline';
+          delete addTimeouts[productId];
+          }, 2000);
+      addTimeouts[productId] = timeOutId;
+      }
      });
     })
   
@@ -117,6 +139,8 @@ function orderDetail(Order) {
       }
       cart.saveTostorage();
       cart.updateCartQuantity();
-      renderOrderPage();
+      document.querySelector('.js-order-cart-quantity').innerHTML = cart.updateCartQuantity();
+
+
   }
 }

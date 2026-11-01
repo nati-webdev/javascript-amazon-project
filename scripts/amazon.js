@@ -6,9 +6,36 @@ loadProductsFetch().then(() => {
 });
 
 function renderProductsGrid() {
+  
+  const searchButton = document.querySelector('.js-search-button');
+  if(searchButton){
+    searchButton.
+  addEventListener('click', () => {
+  const value = document.querySelector('.js-search-value').value;
+    window.location.href = `amazon.html?search=${value}`;
+  });
+}
 
+  const url = new URL(window.location.href);
+  const searchValue = url.searchParams.get('search');
+  let productsToDisplay = products;
+  if(searchValue){
+  let newProducts = products.filter((product) => {
+    return product.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+    product.keywords?.some((keyword) => {
+      return keyword.toLowerCase().includes(searchValue.toLowerCase());
+    });
+  });
+
+   if(newProducts.length === 0){
+    document.querySelector('.js-products-grid').innerHTML = 'No product matched your search';
+    return;
+  }
+  productsToDisplay = newProducts;
+ 
+  }
   let productsHTML = ``;
-  products.forEach((product) => {
+  productsToDisplay.forEach((product) => {
     productsHTML += `
         <div class="product-container">
           <div class="product-image-container">
@@ -63,8 +90,9 @@ function renderProductsGrid() {
         </div>`;
   });
   const addedMessageTimeouts = {};
-  document.querySelector('.js-products-grid')
-    .innerHTML = productsHTML;
+  document.querySelector('.js-products-grid').
+  innerHTML = productsHTML;
+  
   function showCartQuantity(){
     const cartQuantity = cart.updateCartQuantity();
     document.querySelector('.js-cart-quantity').innerHTML

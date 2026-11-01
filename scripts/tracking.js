@@ -55,13 +55,13 @@ let trackingHtml = `
         <img class="product-image" src="${Product.image}">
 
         <div class="progress-labels-container">
-          <div class="progress-label">
+          <div class="progress-label js-preparing">
             Preparing
           </div>
-          <div class="progress-label current-status">
+          <div class="progress-label js-shipped">
             Shipped
           </div>
-          <div class="progress-label">
+          <div class="progress-label js-delivered">
             Delivered
           </div>
         </div>
@@ -80,8 +80,21 @@ const placed = new Date(Order.orderTime).getTime();
 const arrive = new Date(orderProduct.estimatedDeliveryTime).getTime();
 const currentTime = new Date().getTime();
 
-const progress = ((currentTime - placed)/(arrive - placed)) * 100;
+let progress = ((currentTime - placed)/(arrive - placed)) * 100 ;
+if(progress < 5){
+  progress = 5;
+}
   document.querySelector('.progress-bar').
-  style.width = `${progress}`;
+  style.width = `${progress}%`;
+  if(progress <= 49){
+  document.querySelector('.js-preparing').classList.add('current-status');
+
+  }
+  else if(progress >=50 && progress <=99  ){
+  document.querySelector('.js-shipped').classList.add('current-status');
+  }
+  else if(progress === 100){
+  document.querySelector('.js-delivered').classList.add('current-status');
+  }
 
 }

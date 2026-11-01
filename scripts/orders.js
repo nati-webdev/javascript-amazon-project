@@ -20,14 +20,15 @@ function renderOrderPage() {
   document.querySelector('.js-order-cart-quantity').innerHTML = cartQuantity;
   let orderHtml = '';
   const today = dayjs();
-  const datestring = today.format('MMMM D');
   orders.forEach((Order) => {
+    const orderDate = Order.orderTime;
+    const date = dayjs(orderDate).format('MMMM D');
     orderHtml += `
           <div class="order-header">
             <div class="order-header-left-section">
               <div class="order-date">
                 <div class="order-header-label">Order Placed:</div>
-                <div>${datestring}</div>
+                <div>${date}</div>
               </div>
               <div class="order-total">
                 <div class="order-header-label">Total:</div>
@@ -57,6 +58,8 @@ function orderDetail(Order) {
     const Product = products.find((Product) => {
       return Product.id === product.productId;
     });
+    const date = dayjs(delivaryDate).format('MMMM D');
+
 
     orderDetailHtml += `
         <div class="product-image-container">
@@ -68,7 +71,7 @@ function orderDetail(Order) {
             ${Product.name}
           </div>
           <div class="product-delivery-date">
-            Arriving on: 
+            Arriving on: ${date}
           </div>
           <div class="product-quantity">
             Quantity: ${product.quantity}

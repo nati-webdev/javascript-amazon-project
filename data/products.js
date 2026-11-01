@@ -5,6 +5,7 @@ class Product {
   name;
   rating;
   priceCents;
+  keywords;
   
   constructor(data) {
   this.id = data.id;
@@ -12,6 +13,7 @@ class Product {
   this.name = data.name;
   this.rating = data.rating;
   this.priceCents = data.priceCents;
+  this.keywords = data.keywords;
   } 
 
   getStarsUrl(){
@@ -151,7 +153,7 @@ loadProduct();
 */
 
 /*
-export const products = [
+export let products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",

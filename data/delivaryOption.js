@@ -1,5 +1,5 @@
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-export const delivaryOptions = [{
+export const deliveryOptions = [{
   id: '1',
   delivaryDays: 7,
   priceCents : 0
@@ -13,15 +13,14 @@ export const delivaryOptions = [{
   priceCents: 999
 }];
 export function getDelivaryObject(cartItem){
-  let delivaryOption;
-    const delivaryOptionID = cartItem.delivaryOptionId;
-    delivaryOption = delivaryOptions.find((option) => option.id === cartItem.delivaryOptionId);
-    return delivaryOption || delivaryOptions[0];
+  let deliveryOption;
+    deliveryOption = deliveryOptions.find((option) => option.id === cartItem.deliveryOptionId);
+    return deliveryOption || deliveryOptions[0];
 }
-export function calculateDelivaryDate(delivaryOption){
+export function calculateDelivaryDate(deliveryOption){
   let today = dayjs();
   let count = 0;
-  while(count < delivaryOption.delivaryDays){
+  while(count < deliveryOption.delivaryDays){
     today = today.add(1, 'day');
     const dayofweek = today.day();
 

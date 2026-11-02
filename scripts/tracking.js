@@ -1,5 +1,5 @@
 import { orders } from '../data/orders.js';
-import { products, loadProductsFetch } from '../data/products.js';
+import { products, loadProductsFetch, SetUpSearch } from '../data/products.js';
 import { loadCartFetch } from '../data/cart.js';
 import { cart } from '../data/cart.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -16,6 +16,9 @@ async function loadTrackingPage() {
 loadTrackingPage();
 
 function renderTrackingPage() {
+
+SetUpSearch();
+
 const url = new URL(window.location.href);
 const orderId = url.searchParams.get('orderId');
 const productId = url.searchParams.get('productId');
@@ -29,8 +32,14 @@ console.log(Order)
 const orderProduct = Order.products.find((product) => {
   return product.productId === productId;
 });
+const deliverydate = dayjs(orderProduct.estimatedDeliveryTime);
+let date;
 
-const date = dayjs(orderProduct.estimatedDeliveryTime).format('dddd, MMMM D');
+if(dayjs().isAfter(deliverydate, 'day') || dayjs().isSame(deliverydate, 'day')){
+  date = `Delivered on ${deliverydate.format('dddd, MMMM D')}`;
+}else{
+  date = `Arriving on ${deliverydate.format('dddd, MMMM, D')}`;
+}
 
 
 //generate the html for tracking page
@@ -41,7 +50,7 @@ let trackingHtml = `
         </a>
 
         <div class="delivery-date">
-          Arriving on ${date}
+          ${date}
         </div>
 
         <div class="product-info">

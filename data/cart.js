@@ -32,7 +32,7 @@ class Cart {
     this.cartItem.push({
     productId: productId,
     quantity: selectedCount,
-    delivaryOptionId: '1'
+    deliveryOptionId: '1'
     })
   }
   this.saveTostorage();
@@ -54,7 +54,7 @@ class Cart {
   this.saveTostorage();
   }
 
-  updateDelivaryOption(productId, delivaryOptionId){
+  updateDelivaryOption(productId, deliveryOptionId){
   let matcthingItem;
   this.cartItem.forEach((cartItem) => {
     if(productId === cartItem.productId){
@@ -64,10 +64,10 @@ class Cart {
   if(!matcthingItem){
       return;
    }
-  if(delivaryOptionId !== '1' && delivaryOptionId !== '2' && delivaryOptionId !== '3'){
+  if(deliveryOptionId !== '1' && deliveryOptionId !== '2' && deliveryOptionId !== '3'){
     return;
    }
-  matcthingItem.delivaryOptionId = delivaryOptionId;
+  matcthingItem.deliveryOptionId = deliveryOptionId;
   this.saveTostorage();
   }
 }

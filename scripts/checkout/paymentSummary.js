@@ -55,11 +55,13 @@ export function renderPaymentSummary(){
         Place your order
       </button>
       `;
-
+    
     document.querySelector('.js-payment-summary').
     innerHTML = paymentSummaryHTML;
-    document.querySelector('.js-place-order')
-    .addEventListener('click', async () => {
+
+    const placeOrderButton = document.querySelector('.js-place-order');
+    placeOrderButton.disabled = cart.cartItem.length === 0;
+    placeOrderButton.addEventListener('click', async () => {
       try {
         if(cart.cartItem.length !==  0){
           const response = await fetch('https://supersimplebackend.dev/orders', {
@@ -80,5 +82,6 @@ export function renderPaymentSummary(){
     localStorage.removeItem('cart');
     window.location.href = 'orders.html';
     });
+    
   
 }

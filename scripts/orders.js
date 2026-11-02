@@ -1,5 +1,5 @@
 import { cart, loadCartFetch } from '../data/cart.js';
-import { loadProductsFetch, products } from '../data/products.js';
+import { loadProductsFetch, products, SetUpSearch } from '../data/products.js';
 import { orders } from '../data/orders.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { formatCurrency } from './utils/money.js';
@@ -16,6 +16,7 @@ loadOrderPage();
 const addTimeouts = {};
 
 function renderOrderPage() {
+  SetUpSearch();
   const cartQuantity = cart.updateCartQuantity();
   document.querySelector('.js-order-cart-quantity').innerHTML = cartQuantity;
   let orderHtml = '';
@@ -54,11 +55,17 @@ document.querySelector('.js-order-container')
 function orderDetail(Order) {
   let orderDetailHtml = '';
     Order.products.forEach((product) => {
-    const delivaryDate = product.estimatedDeliveryTime;
+    const deliveryDate = dayjs(product.estimatedDeliveryTime);
     const Product = products.find((Product) => {
       return Product.id === product.productId;
     });
-    const date = dayjs(delivaryDate).format('MMMM D');
+    let date;
+    if(dayjs().isAfter(deliveryDate, 'day') ||
+     dayjs().isSame(deliveryDate, 'day')){
+      date = `Delivered on: ${deliveryDate.format('MMMM D')}`;
+    }else{
+     date = `Arriving on: ${deliveryDate.format('MMMM D')}`;
+    }
 
 
     orderDetailHtml += `
@@ -71,7 +78,7 @@ function orderDetail(Order) {
             ${Product.name}
           </div>
           <div class="product-delivery-date">
-            Arriving on: ${date}
+            ${date}
           </div>
           <div class="product-quantity">
             Quantity: ${product.quantity}
@@ -137,7 +144,7 @@ function orderDetail(Order) {
       cart.cartItem.push({
             productId: productId,
             quantity: 1,
-            delivaryOptionId: '1'
+            deliveryOptionId: '1'
           });
       }
       cart.saveTostorage();

@@ -1,6 +1,6 @@
 import { cart } from "../../data/cart.js";
 import { getProductItem } from "../../data/products.js";
-import { calculateDelivaryDate, delivaryOptions, getDelivaryObject } from "../../data/delivaryOption.js";
+import { calculateDelivaryDate, deliveryOptions, getDelivaryObject } from "../../data/delivaryOption.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import { updateCheckout } from "./checkoutHeader.js";
 import { formatCurrency } from "../utils/money.js";
@@ -12,8 +12,8 @@ export function renderOrderSummary(){
 
     let product = getProductItem(cartItem);
     
-    const delivaryOption = getDelivaryObject(cartItem);
-    const dateString = calculateDelivaryDate(delivaryOption);
+    const deliveryOption = getDelivaryObject(cartItem);
+    const dateString = calculateDelivaryDate(deliveryOption);
       
     checkouthtml += 
           `<div class="cart-item-container js-cart-item-container js-cart-item-container-${product.id}">
@@ -48,26 +48,26 @@ export function renderOrderSummary(){
               <div class="delivery-options-title">
                 Choose a delivery option:
               </div>
-              ${delivaryOptionsHTML(product, cartItem)}
+              ${deliveryOptionsHTML(product, cartItem)}
             </div>
           </div>
         </div>
     `;
   });
-  function delivaryOptionsHTML(product,cartItem){
+  function deliveryOptionsHTML(product,cartItem){
     let HTML = '';
-    delivaryOptions.forEach((delivaryOption) => {
-      const dateString = calculateDelivaryDate(delivaryOption);
-      const priceString = delivaryOption.priceCents === 0 
+    deliveryOptions.forEach((deliveryOption) => {
+      const dateString = calculateDelivaryDate(deliveryOption);
+      const priceString = deliveryOption.priceCents === 0 
       ? 'FREE '  
-      : `$${formatCurrency(delivaryOption.priceCents)} `;
-      const ischecked = cartItem.delivaryOptionId === delivaryOption.id;
+      : `$${formatCurrency(deliveryOption.priceCents)} `;
+      const ischecked = cartItem.deliveryOptionId === deliveryOption.id;
 
       HTML += `
-        <div class="delivery-option js-delivery-option js-testing-delivary-option-${product.id}-${delivaryOption.id}"
+        <div class="delivery-option js-delivery-option js-testing-delivary-option-${product.id}-${deliveryOption.id}"
           data-product-id="${product.id}"
-          data-delivery-option-id="${delivaryOption.id}">
-            <input class="delivary-option-input input-${product.id}-${delivaryOption.id}" type="radio"
+          data-delivery-option-id="${deliveryOption.id}">
+            <input class="delivary-option-input input-${product.id}-${deliveryOption.id}" type="radio"
               ${ischecked ? 'checked' : ''}
               class="delivery-option-input"
               name="delivery-option-${product.id}">
@@ -83,9 +83,24 @@ export function renderOrderSummary(){
     });
     return HTML;
   }
-  updateCheckout();
-    
-  document.querySelector('.js-order-summery').innerHTML = checkouthtml;
+  updateCheckout(); 
+  if(cart.cartItem.length === 0){
+      document.querySelector('.js-order-summery').
+      innerHTML = `
+        <div>
+        <p>Your cart is empty</p>
+        <button class="js-view-products button-primary view-products">
+        View products
+        </button>
+        </div>`;
+  document.querySelector('.js-view-products').
+  addEventListener('click', () => {
+     window.location.href = 'amazon.html';
+  });
+  }else{
+      document.querySelector('.js-order-summery').innerHTML = checkouthtml;
+    }
+
   const updateHTML = document.querySelectorAll('.js-save-button');
 
     document.querySelectorAll('.js-delete-link')
@@ -151,6 +166,10 @@ export function renderOrderSummary(){
       cart.updateDelivaryOption(productId, deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();
+     const those = cart.cartItem.find((cartItem) => {
+       return cartItem.productId === productId;
+      })
+      console.log(those.deliveryOptionId);
 
       })
     });

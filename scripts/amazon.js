@@ -1,38 +1,34 @@
 import { cart } from "../data/cart.js";
-import { products, loadProductsFetch } from "../data/products.js";
+import { products, loadProductsFetch, SetUpSearch } from "../data/products.js";
 
 loadProductsFetch().then(() => {
   renderProductsGrid();
 });
 
 function renderProductsGrid() {
-  
-  const searchButton = document.querySelector('.js-search-button');
-  if(searchButton){
-    searchButton.
-  addEventListener('click', () => {
-  const value = document.querySelector('.js-search-value').value;
-    window.location.href = `amazon.html?search=${value}`;
-  });
-}
 
+  SetUpSearch();
+  
+  let productsToDisplay = products;
   const url = new URL(window.location.href);
   const searchValue = url.searchParams.get('search');
-  let productsToDisplay = products;
   if(searchValue){
-  let newProducts = products.filter((product) => {
+  productsToDisplay = products.filter((product) => {
     return product.name.toLowerCase().includes(searchValue.toLowerCase()) || 
     product.keywords?.some((keyword) => {
       return keyword.toLowerCase().includes(searchValue.toLowerCase());
     });
   });
 
-   if(newProducts.length === 0){
-    document.querySelector('.js-products-grid').innerHTML = 'No product matched your search';
+   if(productsToDisplay.length === 0){
+    document.querySelector('.js-products-grid')
+    .innerHTML = 
+    `<div class="no-product-message">
+         <h2>No products found</h2>
+         <p>Try searching for something else.</p>
+    </div>`
     return;
   }
-  productsToDisplay = newProducts;
- 
   }
   let productsHTML = ``;
   productsToDisplay.forEach((product) => {

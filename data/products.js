@@ -839,6 +839,30 @@ export let products = [
   return new Product(productDetails);
 });
 */
+export function SetUpSearch(){
+  const searchButton = document.querySelector('.js-search-button');
+  const searchInput = document.querySelector('.js-search-value');
+  if(searchButton && searchButton){
+    searchButton.
+  addEventListener('click', () => {
+    const value = searchInput.value;
+      if(value){
+      window.location.href = `amazon.html?search=${value}`;
+      }else{
+      window.location.href = `amazon.html`;
+      }
+   });
+  searchInput.addEventListener('keydown', (event) => {
+    if(event.key === 'Enter'){
+    const value = searchInput.value;
+      if(value){
+      window.location.href = `amazon.html?search=${value}`;
+      }
+    }
+   });
+  }
+}
+  
 
 export function getProductItem(productId){
     let product = products.find((product) => {

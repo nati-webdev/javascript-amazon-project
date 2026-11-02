@@ -209,6 +209,22 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+.place-order-button:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgb(180,180,180);
+}
 .input-quantity-button{
   width: 30px;
+}
+.view-products{
+  font-size: 15px;
+  width: 140px;
+  height: 36px;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }

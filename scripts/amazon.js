@@ -8,6 +8,16 @@ loadProductsFetch().then(() => {
 function renderProductsGrid() {
 
   SetUpSearch();
+
+  const mobileButton = document.querySelector('.js-mobile-menu-button');
+  const headerMenu = document.querySelector('.js-header-menu');
+
+  mobileButton.addEventListener('click', () => {
+    headerMenu.classList.toggle('is-open');
+    const isOpen = headerMenu.classList.contains('.is-open');
+    mobileButton.setAttribute('aria-expanded', isOpen);
+
+  });
   
   let productsToDisplay = products;
   const url = new URL(window.location.href);

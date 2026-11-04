@@ -1,5 +1,5 @@
 import { orders } from '../data/orders.js';
-import { products, loadProductsFetch, SetUpSearch } from '../data/products.js';
+import { products, loadProductsFetch, SetUpSearch, mobileSetUp } from '../data/products.js';
 import { loadCartFetch } from '../data/cart.js';
 import { cart } from '../data/cart.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -16,6 +16,8 @@ async function loadTrackingPage() {
 loadTrackingPage();
 
 function renderTrackingPage() {
+
+mobileSetUp();
 
 SetUpSearch();
 
@@ -70,7 +72,7 @@ let trackingHtml = `
           <div class="progress-label js-shipped">
             Shipped
           </div>
-          <div class="progress-label js-delivered">
+          <div class="progress-label js-delivered-done">
             Delivered
           </div>
         </div>
@@ -95,15 +97,22 @@ if(progress < 5){
 }
   document.querySelector('.progress-bar').
   style.width = `${progress}%`;
-  if(progress <= 49){
-  document.querySelector('.js-preparing').classList.add('current-status');
-
+  const preparingMessage = document.querySelector('.js-preparing');
+  const shippedMessage = document.querySelector('.js-shipped');
+  const deliveredMessage = document.querySelector('.js-delivered-done');
+  if(progress >= 100){
+   preparingMessage.classList.remove('current-status');
+   shippedMessage.classList.remove('current-status');
+   deliveredMessage.classList.add('current-status');
   }
-  else if(progress >=50 && progress <=99  ){
-  document.querySelector('.js-shipped').classList.add('current-status');
-  }
-  else if(progress === 100){
-  document.querySelector('.js-delivered').classList.add('current-status');
+  else if(progress >=50 && progress < 100 ){
+     preparingMessage.classList.remove('current-status');
+     shippedMessage.classList.add('current-status');
+     deliveredMessage.classList.remove('current-status');
+  }else{
+  preparingMessage.classList.add('current-status');
+  shippedMessage.classList.remove('current-status');
+  deliveredMessage.classList.remove('current-status');
   }
 
 }

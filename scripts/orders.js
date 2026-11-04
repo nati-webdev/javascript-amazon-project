@@ -1,5 +1,5 @@
 import { cart, loadCartFetch } from '../data/cart.js';
-import { loadProductsFetch, products, SetUpSearch } from '../data/products.js';
+import { loadProductsFetch, mobileSetUp, products, SetUpSearch } from '../data/products.js';
 import { orders } from '../data/orders.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { formatCurrency } from './utils/money.js';
@@ -16,6 +16,9 @@ loadOrderPage();
 const addTimeouts = {};
 
 function renderOrderPage() {
+  
+  mobileSetUp();
+
   SetUpSearch();
   const cartQuantity = cart.updateCartQuantity();
   document.querySelector('.js-order-cart-quantity').innerHTML = cartQuantity;

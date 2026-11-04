@@ -1,32 +1,25 @@
 import { cart } from "../data/cart.js";
-import { products, loadProductsFetch, SetUpSearch } from "../data/products.js";
+import { products, loadProductsFetch, SetUpSearch, mobileSetUp } from "../data/products.js";
 
 loadProductsFetch().then(() => {
   renderProductsGrid();
 });
 
 function renderProductsGrid() {
-
+  
   SetUpSearch();
-
-  const mobileButton = document.querySelector('.js-mobile-menu-button');
-  const headerMenu = document.querySelector('.js-header-menu');
-
-  mobileButton.addEventListener('click', () => {
-    headerMenu.classList.toggle('is-open');
-    const isOpen = headerMenu.classList.contains('.is-open');
-    mobileButton.setAttribute('aria-expanded', isOpen);
-
-  });
+  mobileSetUp();
   
   let productsToDisplay = products;
   const url = new URL(window.location.href);
   const searchValue = url.searchParams.get('search');
   if(searchValue){
   productsToDisplay = products.filter((product) => {
-    return product.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+    return product.name.toLowerCase()
+    .includes(searchValue.toLowerCase()) || 
     product.keywords?.some((keyword) => {
-      return keyword.toLowerCase().includes(searchValue.toLowerCase());
+      return keyword.toLowerCase()
+      .includes(searchValue.toLowerCase());
     });
   });
 
@@ -111,7 +104,8 @@ function renderProductsGrid() {
   const { productId } = button.dataset;
   const previousTimeoutId = addedMessageTimeouts[productId];
     
-    const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+    const addedMessage = document.querySelector(
+      `.js-added-to-cart-${productId}`);
     addedMessage.classList.add('added-to-cart-visiblity');
     if(previousTimeoutId){
       clearTimeout(previousTimeoutId);

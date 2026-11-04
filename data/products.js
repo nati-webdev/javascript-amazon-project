@@ -862,6 +862,19 @@ export function SetUpSearch(){
    });
   }
 }
+ export function mobileSetUp() {
+  const mobileButton = document.querySelector(
+    '.js-mobile-menu-button');
+  const headerMenu = document.querySelector(
+    '.js-header-menu');
+
+  mobileButton.addEventListener('click', () => {
+    headerMenu.classList.toggle('is-open');
+    const isOpen = headerMenu.classList.contains('.is-open');
+    mobileButton.setAttribute('aria-expanded', isOpen);
+
+  });
+  }
   
 
 export function getProductItem(productId){

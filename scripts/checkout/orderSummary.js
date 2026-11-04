@@ -95,7 +95,7 @@ export function renderOrderSummary(){
         </div>`;
   document.querySelector('.js-view-products').
   addEventListener('click', () => {
-     window.location.href = 'amazon.html';
+     window.location.href = 'index.html';
   });
   }else{
       document.querySelector('.js-order-summery').innerHTML = checkouthtml;
@@ -169,8 +169,6 @@ export function renderOrderSummary(){
      const those = cart.cartItem.find((cartItem) => {
        return cartItem.productId === productId;
       })
-      console.log(those.deliveryOptionId);
-
       })
     });
 }

@@ -17,19 +17,11 @@ export function getDelivaryObject(cartItem){
     deliveryOption = deliveryOptions.find((option) => option.id === cartItem.deliveryOptionId);
     return deliveryOption || deliveryOptions[0];
 }
-export function calculateDelivaryDate(deliveryOption){
+export function calculateDelivaryDate(delivaryOption){
   let today = dayjs();
-  let count = 0;
-  while(count < deliveryOption.delivaryDays){
-    today = today.add(1, 'day');
-    const dayofweek = today.day();
 
-    if(dayofweek !== 0 && dayofweek !== 6){
-      count++
-    }
-    
-  }
-  const dateString = today.format('dddd, MMMM D');
-  return dateString;
+  const deliveryDate = today.add(delivaryOption.delivaryDays, 'day');
+
+  return deliveryDate.format('dddd, MMMM D');
 
 }

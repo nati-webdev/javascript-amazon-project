@@ -4,7 +4,7 @@ An Amazon-inspired e-commerce website built using HTML, CSS, and JavaScript. Thi
 
 Live Demo
 
-"View Live Website" (https://nati-amazon-shopping.netlify.app)
+"View Live Website" (https://nati-webdev.github.io/javascript-amazon-project/)
 
 Features
 
